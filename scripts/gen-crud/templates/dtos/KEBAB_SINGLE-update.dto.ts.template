@@ -1,0 +1,5 @@
+import { BaseDTOProperty } from '@src/common/decorators/dto-types'
+
+export class $!{PASCAL_SINGLE}UpdateDto {
+
+}

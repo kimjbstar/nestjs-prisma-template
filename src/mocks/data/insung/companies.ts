@@ -1,0 +1,33 @@
+const companies = [
+	{
+		mCode: '1111',
+		ccCode: '22222',
+		compNo: '0000001',
+		owner: '화주사1대표자',
+		staffName: '이호창본부장',
+		telNo: '01011112222',
+		corpSsn: '',
+		corpCategory: '',
+		corpType: '',
+		adddress: '서울 강남구 역삼동 837-10',
+		corpName: '화주사1',
+		insungLon: '',
+		insungLat: '',
+	},
+	{
+		mCode: '1111',
+		ccCode: '22222',
+		compNo: '0000002',
+		owner: '화주사2대표자',
+		staffName: '이호창본부장',
+		telNo: '01011112222',
+		corpSsn: '',
+		corpCategory: '',
+		corpType: '',
+		adddress: '서울 구로구 가마산로 236',
+		corpName: '화주사2',
+		insungLon: '',
+		insungLat: '',
+	},
+]
+export default companies

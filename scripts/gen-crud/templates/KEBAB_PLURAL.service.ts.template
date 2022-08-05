@@ -1,0 +1,101 @@
+import { $!{PASCAL_SINGLE}, Prisma } from '@prisma/client'
+import { Injectable } from '@nestjs/common'
+import { FindManyResult } from '@src/common/base.repository'
+import { PrismaService } from '@src/modules/prisma/prisma.service'
+import { $!{PASCAL_SINGLE}ListArgs } from './args/$!{KEBAB_SINGLE}-list.args'
+import { $!{PASCAL_SINGLE}CreateDto } from './dtos/$!{KEBAB_SINGLE}-create.dto'
+import { $!{PASCAL_SINGLE}UpdateDto } from './dtos/$!{KEBAB_SINGLE}-update.dto'
+
+@Injectable()
+export class $!{PASCAL_PLURAL}Service {
+	constructor(
+		private readonly prismaService: PrismaService
+	) {}
+
+	async findByPk(id: number): Promise<$!{PASCAL_SINGLE}> {
+		return await this.prismaService.findUnique$!{PASCAL_SINGLE}(id)
+	}
+
+	async findFirst(
+		arg: Prisma.$!{PASCAL_SINGLE}WhereInput,
+		reject = false,
+	): Promise<$!{PASCAL_SINGLE}> {
+		return await this.prismaService.findFirst$!{PASCAL_SINGLE}(arg, reject)
+	}
+
+	async create(dto: $!{PASCAL_SINGLE}CreateDto): Promise<$!{PASCAL_SINGLE}> {
+		return null
+		/**
+		return await this.prismaService.$!{CAMEL_SINGLE}.create({
+			data:{
+				TODO
+			}
+		})
+		*/
+	}
+
+	async update(id: number, dto: $!{PASCAL_SINGLE}UpdateDto): Promise<$!{PASCAL_SINGLE}> {
+		return null
+		/**
+		return await this.prismaService.$!{CAMEL_SINGLE}.update({
+			data:{
+				TODO
+			}
+		})
+		*/
+	}
+
+	async destroy(id: number) {
+		return await this.prismaService.$!{CAMEL_SINGLE}.delete({
+			where: {
+				id,
+			},
+		})
+	}
+
+	async findMany(args: $!{PASCAL_SINGLE}ListArgs): Promise<FindManyResult<$!{PASCAL_SINGLE}>> {
+		const findManyArgs = await this._setFindManyArgs(args)
+		const { where } = findManyArgs
+
+		const list = await this.prismaService.$!{CAMEL_SINGLE}.findMany(findManyArgs)
+		const totalCount = await this.getCount(where)
+
+		return {
+			totalCount,
+			list,
+		}
+	}
+
+	async aggregate(args: $!{PASCAL_SINGLE}ListArgs) {
+		const { where } = await this._setFindManyArgs(args)
+		return await this.getAggregate(where)
+	}
+
+	async getAggregate(where: Prisma.$!{PASCAL_SINGLE}WhereInput) {
+		const fields: Prisma.$!{PASCAL_SINGLE}CountAggregateInputType = {
+			id: true,
+		}
+		return await this.prismaService.$!{CAMEL_SINGLE}.aggregate({
+			where,
+			_count: { id: true },
+			_sum: fields,
+			_max: fields,
+			_min: fields,
+			_avg: fields,
+		})
+	}
+
+	async getCount(where: Prisma.$!{PASCAL_SINGLE}WhereInput) {
+		return await this.prismaService.$!{CAMEL_SINGLE}.count({ where })
+	}
+
+	async _setFindManyArgs(
+		args: $!{PASCAL_SINGLE}ListArgs,
+	): Promise<Prisma.$!{PASCAL_SINGLE}FindManyArgs> {
+		const findManyArgs: Prisma.$!{PASCAL_SINGLE}FindManyArgs = {
+		}
+
+		return this.prismaService.setOrderAndLimit(findManyArgs, args)
+	}
+
+}

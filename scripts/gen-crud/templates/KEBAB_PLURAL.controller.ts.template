@@ -1,0 +1,65 @@
+import { Body, Controller, Get, Param, ParseIntPipe, Query } from '@nestjs/common'
+import { ApiTags } from '@nestjs/swagger'
+import { $!{PASCAL_SINGLE} } from '@prisma/client'
+import {
+	ApiCreateOperation,
+	ApiDeleteOperation,
+	ApiReadListOperation,
+	ApiReadSingleOperation,
+	ApiUpdateOperation,
+} from '@src/common/decorators/crud-operations'
+import { NormalResult, PaginatedResult } from '@src/common/dto/responses'
+import { ListResponse } from '@src/common/base.repository'
+import { $!{PASCAL_PLURAL}Service } from '@src/modules/$!{KEBAB_PLURAL}/$!{KEBAB_PLURAL}.service'
+import { PrismaModel } from '@src/_gen/prisma-class'
+import { $!{PASCAL_SINGLE}ListArgs } from './args/$!{KEBAB_SINGLE}-list.args'
+import { $!{PASCAL_SINGLE}CreateDto } from './dtos/$!{KEBAB_SINGLE}-create.dto'
+import { $!{PASCAL_SINGLE}UpdateDto } from './dtos/$!{KEBAB_SINGLE}-update.dto'
+import { $!{PASCAL_SINGLE}Response } from './response/$!{KEBAB_SINGLE}.response'
+
+@ApiTags('$!{SNAKE_PLURAL}')
+@Controller('$!{SNAKE_PLURAL}')
+export class $!{PASCAL_PLURAL}Controller {
+	constructor(private readonly $!{CAMEL_PLURAL}Service: $!{PASCAL_PLURAL}Service) {}
+
+	@Get('aggregate')
+	async aggregate(@Query() args: $!{PASCAL_SINGLE}ListArgs) {
+		const result = await this.$!{CAMEL_PLURAL}Service.aggregate(args)
+		return new NormalResult({ result })
+	}
+
+	@ApiReadListOperation(PrismaModel.$!{PASCAL_SINGLE})
+	async find(@Query() args: $!{PASCAL_SINGLE}ListArgs): Promise<PaginatedResult<$!{PASCAL_SINGLE}>> {
+		const result = await this.$!{CAMEL_PLURAL}Service.findMany(args)
+		return ListResponse(result, '$!{CAMEL_PLURAL}')
+	}
+
+	@ApiReadSingleOperation(PrismaModel.$!{PASCAL_SINGLE})
+	async get(@Param('id', ParseIntPipe) id: number): Promise<$!{PASCAL_SINGLE}Response> {
+		return {
+			$!{CAMEL_SINGLE}: await this.$!{CAMEL_PLURAL}Service.findByPk(id),
+		}
+	}
+
+	@ApiCreateOperation(PrismaModel.$!{PASCAL_SINGLE})
+	async create(@Body() dto: $!{PASCAL_SINGLE}CreateDto): Promise<$!{PASCAL_SINGLE}Response> {
+		return {
+			$!{CAMEL_SINGLE}: await this.$!{CAMEL_PLURAL}Service.create(dto),
+		}
+	}
+
+	@ApiUpdateOperation(PrismaModel.$!{PASCAL_SINGLE})
+	async update(
+		@Param('id', ParseIntPipe) id: number,
+		@Body() dto: $!{PASCAL_SINGLE}UpdateDto,
+	): Promise<$!{PASCAL_SINGLE}Response> {
+		return {
+			$!{CAMEL_SINGLE}: await this.$!{CAMEL_PLURAL}Service.update(id, dto),
+		}
+	}
+
+	@ApiDeleteOperation(PrismaModel.$!{PASCAL_SINGLE})
+	async delete(@Param('id', ParseIntPipe) id: number): Promise<void> {
+		await this.$!{CAMEL_PLURAL}Service.destroy(id)
+	}
+}

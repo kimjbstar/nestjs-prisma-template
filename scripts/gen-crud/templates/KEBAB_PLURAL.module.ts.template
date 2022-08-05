@@ -1,0 +1,18 @@
+import { Module } from '@nestjs/common'
+
+import { $!{PASCAL_PLURAL}Service } from '@src/modules/$!{KEBAB_PLURAL}/$!{KEBAB_PLURAL}.service'
+import { $!{PASCAL_PLURAL}Controller } from './$!{KEBAB_PLURAL}.controller'
+
+/**
+ * ### $!{PASCAL_SINGLE} 모듈
+ *
+ * $!{PASCAL_SINGLE} 모듈입니다.
+ *
+ */
+@Module({
+	imports: [],
+	controllers: [$!{PASCAL_PLURAL}Controller],
+	providers: [$!{PASCAL_PLURAL}Service],
+	exports: [$!{PASCAL_PLURAL}Service],
+})
+export class $!{PASCAL_PLURAL}Module { }

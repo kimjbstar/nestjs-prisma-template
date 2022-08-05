@@ -1,0 +1,5 @@
+import { $!{PASCAL_SINGLE} } from '@prisma/client'
+
+export class $!{PASCAL_SINGLE}Response {
+	$!{CAMEL_SINGLE}: $!{PASCAL_SINGLE}
+}

@@ -1,0 +1,126 @@
+{
+  "name": "logipasta-api",
+  "version": "2.1.10",
+  "description": "로지파스타 API Server",
+  "main": "app.js",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "contributors": [
+    {
+      "name": "JongBeom Kim",
+      "email": "kimjbstar@coderecipe.io",
+      "url": "https://www.github.com/kimjbstar"
+    },
+    {
+      "name": "Eunju Kim",
+      "email": "amy@coderecipe.io",
+      "url": "https://www.github.com/eunjju1209"
+    },
+    {
+      "name": "Xadparo",
+      "email": "xadparo@coderecipe.io",
+      "url": "https://www.github.com/xadparo"
+    }
+  ],
+  "private": true,
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "node dist/main.js",
+    "watch": "cross-env NODE_ENV=local swc src -d dist -w",
+    "dev": "nodemon dist/main.js",
+    "dev:server": "cross-env NODE_ENV=local nest start --watch",
+    "build": "rimraf dist && nest build",
+    "build:swc": "rimraf dist && yarn swc ./src -d dist",
+    "debug": "nest start --debug --watch",
+    "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "pretest": "yarn build:swc",
+    "test": "jest --config jest.dist.config.js --runInBand --detectOpenHandles --forceExit --verbose",
+    "posttest": "rimraf dist",
+    "clean:testing": "docker-compose --file ./test/docker-compose.yml down -v",
+    "test:cov": "jest --coverage --config jest.dist.config.js --runInBand --detectOpenHandles --forceExit --verbose --no-cache",
+    "prisma:test": "dotenv -e .env.test -- npx prisma",
+    "prisma:local": "dotenv -e .env.local -- npx prisma"
+  },
+  "dependencies": {
+    "@nestjs/common": "^8.4.3",
+    "@nestjs/config": "^2.0.0",
+    "@nestjs/core": "^8.4.3",
+    "@nestjs/jwt": "^8.0.0",
+    "@nestjs/microservices": "^8.4.3",
+    "@nestjs/passport": "^8.0.1",
+    "@nestjs/platform-express": "^8.4.3",
+    "@nestjs/swagger": "^5.2.1",
+    "@prisma/client": "^4.0.0",
+    "@slack/webhook": "^6.0.0",
+    "@types/multer": "^1.4.7",
+    "axios": "^0.26.1",
+    "cache-manager": "^3.4.4",
+    "cache-manager-redis-store": "^2.0.0",
+    "change-case": "^4.1.2",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.13.2",
+    "connect-redis": "^6.0.0",
+    "dotenv": "^10.0.0",
+    "express-session": "^1.17.2",
+    "helmet": "^4.6.0",
+    "joi": "^17.4.2",
+    "module-alias": "^2.2.2",
+    "moment": "^2.29.1",
+    "mysql2": "^2.3.3",
+    "path": "^0.12.7",
+    "pluralize": "^8.0.0",
+    "prisma-class-generator": "^0.2.0",
+    "reflect-metadata": "^0.1.13",
+    "regenerator-runtime": "^0.13.9",
+    "rimraf": "^3.0.2",
+    "rxjs": "^7.2.0",
+    "swagger-ui-express": "^4.3.0",
+    "tsconfig-paths": "^3.11.0"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^8.2.4",
+    "@nestjs/schematics": "^8.0.9",
+    "@nestjs/testing": "^8.4.3",
+    "@swc/cli": "^0.1.57",
+    "@swc/core": "^1.2.213",
+    "@swc/jest": "^0.2.21",
+    "@types/cache-manager": "^3.4.2",
+    "@types/cache-manager-redis-store": "^2.0.0",
+    "@types/connect-redis": "^0.0.17",
+    "@types/express": "^4.17.13",
+    "@types/express-session": "^1.17.4",
+    "@types/jest": "^27.4.1",
+    "@types/node": "^17.0.23",
+    "@types/pluralize": "^0.0.29",
+    "@typescript-eslint/eslint-plugin": "^4.28.3",
+    "@typescript-eslint/parser": "^4.28.3",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.30.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "husky": "^7.0.4",
+    "jest": "^27.0.6",
+    "lint-staged": "^11.2.6",
+    "prettier": "^2.3.2",
+    "prisma": "^4.0.0",
+    "ts-jest": "^27.1.4",
+    "ts-loader": "^9.2.8",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.3"
+  },
+  "_moduleAliases": {
+    "public": "public",
+    "@src": "dist"
+  },
+  "prisma": {
+    "seed": "ts-node -r tsconfig-paths/register src/seed.ts"
+  },
+  "lint-staged": {
+    "src/**/*": [
+      "prettier --write",
+      "git add"
+    ]
+  }
+}

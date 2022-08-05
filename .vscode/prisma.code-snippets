@@ -1,0 +1,10 @@
+{
+	"cons": {
+		"scope": "prisma",
+		"prefix": "pcg",
+		"body": [
+			"generator prismaClassGenerator {\n    provider = \"prisma-class-generator\"\n    dryRun   = \"false\"\n}"
+		],
+		"description": "prisma class generator"
+	}
+}

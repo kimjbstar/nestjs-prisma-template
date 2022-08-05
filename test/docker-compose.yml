@@ -1,0 +1,32 @@
+services:
+    mysql:
+        image: mysql:latest
+        ports:
+            - 3347:3306
+        volumes:
+            - mysql_volume:/var/lib/mysql
+        command: --default-authentication-plugin=mysql_native_password
+        container_name: 'logipasta-api-testing-db'
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_USER: default
+            MYSQL_PASSWORD: secret
+            TZ: Asia/Seoul
+            MYSQL_DATABASE: testing
+        security_opt:
+            - seccomp:unconfined
+
+    redis:
+        image: redis:latest
+        ports:
+            - 3349:6379
+        container_name: 'queue-testing-db'
+        volumes:
+            - redis_volume:/data/db
+
+volumes:
+    mysql_volume:
+    mongo_volume:
+    redis_volume:
+    insung_volume:
