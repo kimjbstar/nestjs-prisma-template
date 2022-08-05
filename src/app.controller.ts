@@ -1,36 +1,11 @@
-import {
-  Controller,
-  Get,
-  UseInterceptors,
-} from "@nestjs/common";
+import { Controller, Get, UseInterceptors } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { AppService } from "./app.service";
 import { ApiNormalResponse } from "./common/decorators/api-normal-response";
 import { CurrentIp } from "./common/decorators/current-ip";
-import { BaseDTOProperty } from "./common/decorators/dto-types";
 import { NormalResult } from "./common/dto/responses";
 import { ResponseInterceptor } from "./interceptors/response.interceptor";
-
-/**
- * 인성 키 검증에 사용되는 query를 정의한 class입니다.
- */
-export class CheckInsungKeyQuery {
-  @BaseDTOProperty({
-    isRequired: true,
-  })
-  m_code: string = undefined;
-
-  @BaseDTOProperty({
-    isRequired: true,
-  })
-  cc_code: string = undefined;
-
-  @BaseDTOProperty({
-    isRequired: true,
-  })
-  consumer_key: string = undefined;
-}
 
 /**
  * get hello response!!

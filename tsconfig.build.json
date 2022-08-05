@@ -1,0 +1,4 @@
+{
+  // used in nest start cli
+  "extends": "./tsconfig.json"
+}

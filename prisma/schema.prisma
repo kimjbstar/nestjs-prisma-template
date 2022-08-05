@@ -9,6 +9,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id        String    @id @default(cuid())
+  email     String    @db.VarChar(128)
+  password  String    @db.VarChar(256)
+  salt      String    @db.VarChar(256)
+  name      String    @db.VarChar(128)
+  createdAt DateTime  @default(now()) @db.DateTime(6)
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime? @db.DateTime(6)
+}
+
 model Author {
   id        Int       @id @default(autoincrement())
   name      String    @db.VarChar(128)
