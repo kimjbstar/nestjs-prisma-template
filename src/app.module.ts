@@ -11,6 +11,7 @@ import { FilesModule } from "./modules/files/files.module";
 import { PrismaModule } from "./modules/prisma/prisma.module";
 import { UtilModule } from "./modules/util/util.module";
 import configOptions from "@src/common/app.config";
+import { UsersModule } from "./modules/users/users.module";
 
 /**
  * 시작점 모듈 입니다. 모든 모듈은 이 모듈로 Inject됩니다.
@@ -24,6 +25,7 @@ import configOptions from "@src/common/app.config";
     BaseLoggerModule,
     UtilModule,
     PrismaModule,
+    UsersModule,
   ],
   controllers: [AppController, HealthController, ExceptionController],
   providers: [AppService],

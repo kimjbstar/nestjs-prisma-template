@@ -1,4 +1,5 @@
 import { Global, Module } from "@nestjs/common";
+import { SlackService } from "../slack/slack.service";
 import { UtilService } from "./util.service";
 
 /**
@@ -11,7 +12,7 @@ import { UtilService } from "./util.service";
 @Module({
   imports: [],
   controllers: [],
-  providers: [UtilService],
+  providers: [UtilService, SlackService],
   exports: [UtilService],
 })
 export class UtilModule {}

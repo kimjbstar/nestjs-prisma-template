@@ -1,46 +1,25 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common";
-import { Administrator, UserCreditType } from "@prisma/client";
-import {
-  AdministratorWithRelation,
-  UserWithRelation,
-} from "@src/common/types/prisma";
+import { Injectable } from "@nestjs/common";
 import { SessionData } from "@src/common/types/session";
 import * as crypto from "crypto";
-import { UsersService } from "../users/users.service";
-import { JwtService } from "@nestjs/jwt";
-import { PrismaService } from "../prisma/prisma.service";
+import { Request } from "express";
+
+export type ApplicationRequest = Request & {
+  session: ApplicationSessionData;
+};
 
 export interface SessionUser {
-  id?: number;
-  insungId?: string;
-  name?: string;
-  phone?: string;
-  department?: string;
-  position?: string;
-  companyId?: number;
-  shipperId?: number;
-  cCode?: string;
-  administratorId?: number;
-  defaultDepartureId?: number;
-  defaultArrivalId?: number;
-  address?: string;
-  detail?: string;
-  currentMileage?: number;
-  creditType?: UserCreditType;
+  id: string;
+  email: string;
+  name: string;
 }
 
-export type LogipastaSessionData = SessionData<{
+export type ApplicationSessionData = SessionData<{
   user?: SessionUser;
-  administrator?: Partial<Administrator>;
 }>;
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private readonly usersService: UsersService,
-    private jwtService: JwtService,
-    private prismaService: PrismaService,
-  ) {}
+  constructor() {}
   static ENCRYPT_KEYLEN = 32 as const;
   static ENCRYPT_ITERATION = 100 as const;
   static ENCRYPT_ALGORITHM = "sha512" as const;
@@ -70,7 +49,7 @@ export class AuthService {
             if (err) throw err;
             const hashed = derivedKey.toString("hex");
             resolve(hashed);
-          },
+          }
         );
       } catch (err) {
         console.log(err);
@@ -79,36 +58,16 @@ export class AuthService {
     });
   }
 
-  async setUser(
-    session: LogipastaSessionData,
-    _user: Partial<UserWithRelation>,
-  ): Promise<LogipastaSessionData> {
-    const user = this.usersService.summarize(_user);
-    session.user = user;
-    session.save();
-    return session;
-  }
+  // async setUser(
+  //   session: ApplicationSessionData,
+  //   user: SessionUser
+  // ): Promise<ApplicationSessionData> {
+  //   session.user = user;
+  //   session.save();
+  //   return session;
+  // }
 
-  async clear(session: LogipastaSessionData) {
-    session.destroy(() => {});
-  }
-
-  issueToken(user: UserWithRelation): string {
-    const payload = {
-      id: user.id,
-      cCode: user.unqId.replace("INSUNG-", ""),
-    };
-    return this.jwtService.sign(payload);
-  }
-
-  verifyToken(token: string): {
-    id: number;
-    cCode: string;
-  } {
-    try {
-      return this.jwtService.verify(token);
-    } catch (e) {
-      throw new UnauthorizedException(e.message);
-    }
-  }
+  // async clear(session: ApplicationSessionData) {
+  //   session.destroy(() => {});
+  // }
 }

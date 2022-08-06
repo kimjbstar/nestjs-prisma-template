@@ -23,10 +23,11 @@ import { DefaultExceptionsFilter } from "@src/common/exceptions/filters/default.
 import { PrismaClientKnownRequestErrorFilter } from "@src/common/exceptions/filters/prisma-client-known-request.exception-filters";
 import { PrismaClientValidationErrorFilter } from "@src/common/exceptions/filters/prisma-client-validation.exception-filters";
 
-const URL_GLOBAL_PREFIX = "api";
 const CURRENT_VERSION = process.env.npm_package_version;
 const PORT = process.env.PORT || 5000;
+// FIXME: 프로젝트명
 const PROJECT_NAME = "nestjs-prisma-api-template";
+const UPLOAD_LIMIT = "50mb";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -39,30 +40,22 @@ async function bootstrap() {
 
   await cachesService.setDefault();
 
-  app.setGlobalPrefix(URL_GLOBAL_PREFIX, {
-    exclude: [
-      {
-        path: "health",
-        method: RequestMethod.GET,
-      },
-    ],
-  });
   app.useGlobalFilters(
     new CustomExceptionsFilter(utilService),
     new PrismaNotFoundErrorFilter(utilService),
     new PrismaClientKnownRequestErrorFilter(utilService),
     new PrismaClientValidationErrorFilter(utilService),
-    new DefaultExceptionsFilter(utilService),
+    new DefaultExceptionsFilter(utilService)
   );
   app.useGlobalInterceptors(
     new ParseInterceptor(),
     new LoggingInterceptor(baseLoggerService, utilService),
-    new ErrorInterceptor(utilService),
+    new ErrorInterceptor(utilService)
   );
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true,
-    }),
+    })
   );
 
   // swagger
@@ -72,7 +65,7 @@ async function bootstrap() {
     .setContact(
       "kimjbtar",
       "https://www.github.com/kimjbstar",
-      "kimjbstar@coderecipe.io",
+      "kimjbstar@gmail.com"
     )
     .setVersion(CURRENT_VERSION)
     .build();
@@ -80,8 +73,8 @@ async function bootstrap() {
     extraModels: [PaginatedResult, NormalResult],
     deepScanRoutes: false,
   });
-  SwaggerModule.setup(`${URL_GLOBAL_PREFIX}/doc`, app, document, {
-    customSiteTitle: `${URL_GLOBAL_PREFIX} API 문서`,
+  SwaggerModule.setup(`doc`, app, document, {
+    customSiteTitle: `${PROJECT_NAME} API 문서`,
     swaggerOptions: {
       tagsSorter: "alpha",
       operationsSorter: "alpha",
@@ -91,8 +84,8 @@ async function bootstrap() {
   });
 
   app.use(helmet());
-  app.use(json({ limit: "50mb" }));
-  app.use(urlencoded({ extended: true, limit: "50mb" }));
+  app.use(json({ limit: UPLOAD_LIMIT }));
+  app.use(urlencoded({ extended: true, limit: UPLOAD_LIMIT }));
   app.enableCors({
     origin: "*",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",

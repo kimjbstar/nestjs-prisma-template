@@ -9,19 +9,29 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserRole {
+  NORMAL
+  ADMIN
+  SUPER_ADMIN
+}
+
 model User {
-  id        String    @id @default(cuid())
-  email     String    @db.VarChar(128)
-  password  String    @db.VarChar(256)
-  salt      String    @db.VarChar(256)
-  name      String    @db.VarChar(128)
-  createdAt DateTime  @default(now()) @db.DateTime(6)
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime? @db.DateTime(6)
+  id            String    @id @default(cuid())
+  email         String    @db.VarChar(128)
+  name          String    @db.VarChar(128)
+  password      String    @db.VarChar(256)
+  salt          String    @db.VarChar(256)
+  role          UserRole
+  addressRoad   String?   @db.VarChar(256)
+  addressDetail String?   @db.VarChar(256)
+  lastLoginedAt DateTime? @db.DateTime(6)
+  createdAt     DateTime  @default(now()) @db.DateTime(6)
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime? @db.DateTime(6)
 }
 
 model Author {
-  id        Int       @id @default(autoincrement())
+  id        String    @id @default(cuid())
   name      String    @db.VarChar(128)
   createdAt DateTime  @default(now()) @db.DateTime(6)
   updatedAt DateTime  @updatedAt
@@ -36,5 +46,5 @@ model Book {
   createdAt DateTime  @default(now()) @db.DateTime(6)
   updatedAt DateTime  @updatedAt
   deletedAt DateTime? @db.DateTime(6)
-  authorId  Int
+  authorId  String
 }

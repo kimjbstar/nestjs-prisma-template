@@ -12,7 +12,7 @@ export class $!{PASCAL_PLURAL}Service {
 		private readonly prismaService: PrismaService
 	) {}
 
-	async findByPk(id: number): Promise<$!{PASCAL_SINGLE}> {
+	async findByPk(id: string): Promise<$!{PASCAL_SINGLE}> {
 		return await this.prismaService.findUnique$!{PASCAL_SINGLE}(id)
 	}
 
@@ -28,7 +28,7 @@ export class $!{PASCAL_PLURAL}Service {
 		/**
 		return await this.prismaService.$!{CAMEL_SINGLE}.create({
 			data:{
-				TODO
+				TO_DO
 			}
 		})
 		*/
@@ -39,13 +39,13 @@ export class $!{PASCAL_PLURAL}Service {
 		/**
 		return await this.prismaService.$!{CAMEL_SINGLE}.update({
 			data:{
-				TODO
+				TO_DO
 			}
 		})
 		*/
 	}
 
-	async destroy(id: number) {
+	async destroy(id: string) {
 		return await this.prismaService.$!{CAMEL_SINGLE}.delete({
 			where: {
 				id,

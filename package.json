@@ -65,6 +65,7 @@
     "dotenv": "^10.0.0",
     "express-session": "^1.17.2",
     "helmet": "^4.6.0",
+    "ip-address": "^8.1.0",
     "joi": "^17.4.2",
     "module-alias": "^2.2.2",
     "moment": "^2.29.1",

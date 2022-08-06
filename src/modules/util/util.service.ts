@@ -1,12 +1,14 @@
 import { Injectable } from "@nestjs/common";
-import { BaseLoggerService } from "../base-logger/base-logger.service";
 import { ConfigService } from "@nestjs/config";
 import moment from "moment";
-const punycode = require("punycode/");
+import { SlackService, SlackWebhookURL } from "../slack/slack.service";
 
 @Injectable()
 export class UtilService {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly slackService: SlackService
+  ) {}
   static ENCRYPT_KEYLEN = 32 as const;
 
   /**
@@ -62,7 +64,7 @@ export class UtilService {
     src: Record<string, any>,
     _option?: {
       keyUpperCase: boolean;
-    },
+    }
   ): string {
     const option = { ..._option };
     const { keyUpperCase = false } = option;
@@ -148,5 +150,44 @@ export class UtilService {
       src = src.replace(new RegExp(`(\\()*${word}(\\))*`, "g"), "");
     }
     return src.trim();
+  }
+
+  /**
+   * internal server error : 핸들링되지 않은 에러 발생
+   *
+   * TODO : slack, sentry or something ...
+   */
+  notifyUnhandledError(e: Error, keyword?: string) {
+    if (this.isLocal() === true) {
+      return;
+    }
+
+    const stacks = this.getPrettyStack(e);
+    this.slackService
+      .sendRaw(SlackWebhookURL.KIMJBSTAR, {
+        blocks: [
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: `[${
+                keyword ?? e.message
+              }] 핸들링하지 못한 에러가 발생했습니다.`,
+            },
+          },
+          {
+            type: "divider",
+          },
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text:
+                "```" + e.stack?.split(/(?:\r\n|\r|\n)/g).join("\n") + "```",
+            },
+          },
+        ],
+      })
+      .catch((e) => {});
   }
 }
