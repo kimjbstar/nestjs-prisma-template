@@ -48,8 +48,8 @@ async function bootstrap() {
     new DefaultExceptionsFilter(utilService)
   );
   app.useGlobalInterceptors(
-    new ParseInterceptor(),
-    new LoggingInterceptor(baseLoggerService, utilService),
+    // new ParseInterceptor(),
+    // new LoggingInterceptor(baseLoggerService, utilService),
     new ErrorInterceptor(utilService)
   );
   app.useGlobalPipes(
@@ -83,7 +83,13 @@ async function bootstrap() {
     },
   });
 
-  app.use(helmet());
+  // app.use(helmet());
+  app.use(
+    helmet({
+      contentSecurityPolicy:
+        process.env.NODE_ENV !== "local" ? undefined : false,
+    })
+  );
   app.use(json({ limit: UPLOAD_LIMIT }));
   app.use(urlencoded({ extended: true, limit: UPLOAD_LIMIT }));
   app.enableCors({

@@ -12,6 +12,10 @@ import { PrismaModule } from "./modules/prisma/prisma.module";
 import { UtilModule } from "./modules/util/util.module";
 import configOptions from "@src/common/app.config";
 import { UsersModule } from "./modules/users/users.module";
+import { GraphQLModule } from "@nestjs/graphql";
+import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
+import { AuthorsModule } from "./modules/authors/authors.module";
+import { PostsModule } from "./modules/posts/posts.module";
 
 /**
  * 시작점 모듈 입니다. 모든 모듈은 이 모듈로 Inject됩니다.
@@ -19,6 +23,11 @@ import { UsersModule } from "./modules/users/users.module";
 @Module({
   imports: [
     ConfigModule.forRoot(configOptions),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      introspection: true,
+      autoSchemaFile: true,
+    }),
     AuthModule,
     FilesModule,
     CachesModule,
@@ -26,6 +35,8 @@ import { UsersModule } from "./modules/users/users.module";
     UtilModule,
     PrismaModule,
     UsersModule,
+    AuthorsModule,
+    PostsModule,
   ],
   controllers: [AppController, HealthController, ExceptionController],
   providers: [AppService],

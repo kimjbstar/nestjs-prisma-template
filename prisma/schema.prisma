@@ -25,6 +25,7 @@ model User {
   addressRoad   String?   @db.VarChar(256)
   addressDetail String?   @db.VarChar(256)
   lastLoginedAt DateTime? @db.DateTime(6)
+  extra         Json?
   createdAt     DateTime  @default(now()) @db.DateTime(6)
   updatedAt     DateTime  @updatedAt
   deletedAt     DateTime? @db.DateTime(6)
@@ -36,10 +37,10 @@ model Author {
   createdAt DateTime  @default(now()) @db.DateTime(6)
   updatedAt DateTime  @updatedAt
   deletedAt DateTime? @db.DateTime(6)
-  Book      Book[]
+  posts     Post[]
 }
 
-model Book {
+model Post {
   id        String    @id @default(cuid())
   name      String    @db.VarChar(128)
   author    Author    @relation(fields: [authorId], references: [id])

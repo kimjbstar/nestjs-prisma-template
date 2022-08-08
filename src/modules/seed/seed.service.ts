@@ -29,6 +29,7 @@ export class SeedService {
           salt: salt,
           role: UserRole.SUPER_ADMIN,
           name: "슈퍼관리자",
+          extra: { foo: "bar" },
         },
         ...this.utilService.range(1, 10000).map((i) => ({
           email: `user${i}@test.com`,
@@ -39,5 +40,21 @@ export class SeedService {
         })),
       ],
     });
+
+    for (const idx of this.utilService.range(1, 100)) {
+      const { id } = await this.prismaService.author.create({
+        data: {
+          name: `author${idx}`,
+        },
+      });
+      await this.prismaService.post.createMany({
+        data: [
+          ...this.utilService.range(1, 2).map((i) => ({
+            authorId: id,
+            name: `author${idx}-post${i}`,
+          })),
+        ],
+      });
+    }
   }
 }
