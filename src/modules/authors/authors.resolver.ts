@@ -37,10 +37,21 @@ export class AuthorsResolver {
     return authors;
   }
 
+  /** N:1 */
+  @ResolveField()
+  async company(@Parent() author: Author) {
+    const company = await this.prismaService.company.findUnique({
+      where: {
+        id: author.companyId,
+      },
+    });
+    return company;
+  }
+
   /** 1:N */
   @ResolveField()
-  async posts(@Parent() author: Author) {
-    const { id } = author;
+  async posts(@Parent() author: Author, @Context() context) {
+    console.log("context in author->posts", context);
     return await this.prismaService.post.findMany({
       where: {
         authorId: author.id,

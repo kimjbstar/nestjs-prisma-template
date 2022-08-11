@@ -41,9 +41,16 @@ export class SeedService {
       ],
     });
 
+    const company = await this.prismaService.company.create({
+      data: {
+        name: `company01`,
+      },
+    });
+
     for (const idx of this.utilService.range(1, 100)) {
       const { id } = await this.prismaService.author.create({
         data: {
+          companyId: company.id,
           name: `author${idx}`,
         },
       });

@@ -1,10 +1,9 @@
-import { Post } from "./post";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { Field, ID, Int, ObjectType } from "@nestjs/graphql";
-import { Company } from "./company";
+import { Author } from "./author";
 
 @ObjectType()
-export class Author {
+export class Company {
   @Field((type) => ID)
   @ApiProperty({ type: String })
   id: string;
@@ -25,15 +24,7 @@ export class Author {
   @ApiPropertyOptional({ type: Date })
   deletedAt?: Date;
 
-  @Field((type) => [Post])
-  @ApiProperty({ isArray: true, type: () => Post })
-  posts: Post[];
-
-  @Field((type) => Company, { nullable: true })
-  @ApiProperty({ type: () => Company })
-  company: Company;
-
-  @Field((type) => String)
-  @ApiProperty({ type: String })
-  companyId: string;
+  @Field((type) => [Author])
+  @ApiProperty({ isArray: true, type: () => Author })
+  authors: Author[];
 }

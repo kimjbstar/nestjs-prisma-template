@@ -31,13 +31,24 @@ model User {
   deletedAt     DateTime? @db.DateTime(6)
 }
 
-model Author {
+model Company {
   id        String    @id @default(cuid())
   name      String    @db.VarChar(128)
   createdAt DateTime  @default(now()) @db.DateTime(6)
   updatedAt DateTime  @updatedAt
   deletedAt DateTime? @db.DateTime(6)
+  authors   Author[]
+}
+
+model Author {
+  id        String    @id @default(cuid())
+  company   Company   @relation(fields: [companyId], references: [id])
+  name      String    @db.VarChar(128)
+  createdAt DateTime  @default(now()) @db.DateTime(6)
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime? @db.DateTime(6)
   posts     Post[]
+  companyId String
 }
 
 model Post {
