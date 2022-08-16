@@ -1,33 +1,66 @@
+import { UserRole } from '@prisma/client'
+import { ObjectType, Field, ID, Int, registerEnumType } from '@nestjs/graphql'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
+import { GraphQLJSONObject } from 'graphql-type-json'
 
+@ObjectType()
 export class User {
 	@ApiProperty({ type: String })
-	id: string
+	@Field((type) => ID)
+	id: string = undefined
 
 	@ApiProperty({ type: String })
-	email: string
+	@Field((type) => String)
+	email: string = undefined
 
 	@ApiProperty({ type: String })
-	password: string
+	@Field((type) => String)
+	name: string = undefined
 
 	@ApiProperty({ type: String })
-	salt: string
+	@Field((type) => String)
+	password: string = undefined
 
 	@ApiProperty({ type: String })
-	name: string
+	@Field((type) => String)
+	salt: string = undefined
+
+	@ApiProperty({ enum: UserRole, enumName: 'UserRole' })
+	@Field((type) => UserRole)
+	role: UserRole = undefined
 
 	@ApiPropertyOptional({ type: String })
-	addressRoad?: string
+	@Field((type) => String, { nullable: true })
+	addressRoad?: string = undefined
 
 	@ApiPropertyOptional({ type: String })
-	addressDetail?: string
+	@Field((type) => String, { nullable: true })
+	addressDetail?: string = undefined
 
-	@ApiProperty({ type: Date })
-	createdAt: Date
-
-	@ApiProperty({ type: Date })
-	updatedAt: Date
+	@ApiPropertyOptional({ type: Number })
+	@Field((type) => Int, { nullable: true })
+	age?: number = undefined
 
 	@ApiPropertyOptional({ type: Date })
-	deletedAt?: Date
+	@Field((type) => Date, { nullable: true })
+	lastLoginedAt?: Date = undefined
+
+	@ApiPropertyOptional()
+	@Field((type) => GraphQLJSONObject, { nullable: true })
+	extra?: any = undefined
+
+	@ApiProperty({ type: Date })
+	@Field((type) => Date)
+	createdAt: Date = undefined
+
+	@ApiProperty({ type: Date })
+	@Field((type) => Date)
+	updatedAt: Date = undefined
+
+	@ApiPropertyOptional({ type: Date })
+	@Field((type) => Date, { nullable: true })
+	deletedAt?: Date = undefined
 }
+registerEnumType(UserRole, {
+	name: 'UserRole',
+})

@@ -9,6 +9,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+generator prismaClassGenerator {
+  provider   = "prisma-class-generator"
+  dryRun     = "false"
+  useGraphQL = "true"
+}
+
 enum UserRole {
   NORMAL
   ADMIN
@@ -24,6 +30,7 @@ model User {
   role          UserRole
   addressRoad   String?   @db.VarChar(256)
   addressDetail String?   @db.VarChar(256)
+  age           Int?
   lastLoginedAt DateTime? @db.DateTime(6)
   extra         Json?
   createdAt     DateTime  @default(now()) @db.DateTime(6)
@@ -31,12 +38,19 @@ model User {
   deletedAt     DateTime? @db.DateTime(6)
 }
 
+enum CompanyType {
+  A
+  B
+  C
+}
+
 model Company {
-  id        String    @id @default(cuid())
-  name      String    @db.VarChar(128)
-  createdAt DateTime  @default(now()) @db.DateTime(6)
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime? @db.DateTime(6)
+  id        String      @id @default(cuid())
+  name      String      @db.VarChar(128)
+  type      CompanyType @default(A)
+  createdAt DateTime    @default(now()) @db.DateTime(6)
+  updatedAt DateTime    @updatedAt
+  deletedAt DateTime?   @db.DateTime(6)
   authors   Author[]
 }
 
@@ -44,6 +58,7 @@ model Author {
   id        String    @id @default(cuid())
   company   Company   @relation(fields: [companyId], references: [id])
   name      String    @db.VarChar(128)
+  extra     Json?
   createdAt DateTime  @default(now()) @db.DateTime(6)
   updatedAt DateTime  @updatedAt
   deletedAt DateTime? @db.DateTime(6)

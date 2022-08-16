@@ -1,30 +1,39 @@
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { Field, ID, Int, ObjectType } from "@nestjs/graphql";
-import { Author } from "./author";
+import { Author } from './author'
+import { CompanyType } from '@prisma/client'
+import { ObjectType, Field, ID, Int, registerEnumType } from '@nestjs/graphql'
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
+import { GraphQLJSONObject } from 'graphql-type-json'
 
 @ObjectType()
 export class Company {
-  @Field((type) => ID)
-  @ApiProperty({ type: String })
-  id: string;
+	@ApiProperty({ type: String })
+	@Field((type) => ID)
+	id: string = undefined
 
-  @Field((type) => String)
-  @ApiProperty({ type: String })
-  name: string;
+	@ApiProperty({ type: String })
+	@Field((type) => String)
+	name: string = undefined
 
-  @Field((type) => String)
-  @ApiProperty({ type: Date })
-  createdAt: Date;
+	@ApiProperty({ enum: CompanyType, enumName: 'CompanyType' })
+	@Field((type) => CompanyType)
+	type: CompanyType = CompanyType.A
 
-  @Field((type) => String)
-  @ApiProperty({ type: Date })
-  updatedAt: Date;
+	@ApiProperty({ type: Date })
+	@Field((type) => Date)
+	createdAt: Date = undefined
 
-  @Field((type) => String, { nullable: true })
-  @ApiPropertyOptional({ type: Date })
-  deletedAt?: Date;
+	@ApiProperty({ type: Date })
+	@Field((type) => Date)
+	updatedAt: Date = undefined
 
-  @Field((type) => [Author])
-  @ApiProperty({ isArray: true, type: () => Author })
-  authors: Author[];
+	@ApiPropertyOptional({ type: Date })
+	@Field((type) => Date, { nullable: true })
+	deletedAt?: Date = undefined
+
+	@ApiProperty({ isArray: true, type: () => Author })
+	@Field((type) => [Author])
+	authors: Author[] = undefined
 }
+registerEnumType(CompanyType, {
+	name: 'CompanyType',
+})
