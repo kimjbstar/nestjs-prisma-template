@@ -2,16 +2,22 @@ import {
   Args,
   Context,
   Int,
+  ObjectType,
   Parent,
   Query,
   ResolveField,
   Resolver,
 } from "@nestjs/graphql";
+import { CurrentGraphQLContext } from "@src/common/decorators/current-context";
+import PaginatedResponse from "@src/common/dto/responses";
 import { Author } from "@src/_gen/prisma-class/author";
 import { PostsService } from "../posts/posts.service";
 import { PrismaService } from "../prisma/prisma.service";
 import { AuthorListArgs } from "./args/author-list.args";
 import { AuthorsService } from "./authors.service";
+
+@ObjectType()
+class PaginatedAuthorResponse extends PaginatedResponse(Author) {}
 
 @Resolver((of) => Author)
 export class AuthorsResolver {
@@ -22,19 +28,17 @@ export class AuthorsResolver {
   ) {}
 
   @Query((returns) => Author)
-  async author(@Args("id", { type: () => String }) id: string) {
+  async author(@Args("id", { type: () => Int }) id: number) {
     return this.authorsService.findByPk(id);
   }
 
-  @Query((returns) => [Author])
-  async authors(@Args() args: AuthorListArgs, @Context() context) {
-    const authors = await this.prismaService.author.findMany({
-      where: {
-        name: args.name ?? undefined,
-      },
-      take: args.take,
-    });
-    return authors;
+  @Query((returns) => PaginatedAuthorResponse)
+  async authors(@Args() args: AuthorListArgs) {
+    const { totalCount, items } = await this.authorsService.findMany(args);
+    return {
+      totalCount,
+      items,
+    };
   }
 
   /** N:1 */

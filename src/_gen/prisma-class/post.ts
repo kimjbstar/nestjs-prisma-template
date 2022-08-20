@@ -5,9 +5,9 @@ import { GraphQLJSONObject } from 'graphql-type-json'
 
 @ObjectType()
 export class Post {
-	@ApiProperty({ type: String })
+	@ApiProperty({ type: Number })
 	@Field((type) => ID)
-	id: string = undefined
+	id: number = undefined
 
 	@ApiProperty({ type: String })
 	@Field((type) => String)
@@ -29,7 +29,7 @@ export class Post {
 	@Field((type) => Date, { nullable: true })
 	deletedAt?: Date = undefined
 
-	@ApiProperty({ type: String })
-	@Field((type) => String)
-	authorId: string = undefined
+	@ApiProperty({ type: Number })
+	@Field((type) => Int)
+	authorId: number = undefined
 }

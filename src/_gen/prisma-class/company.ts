@@ -6,9 +6,9 @@ import { GraphQLJSONObject } from 'graphql-type-json'
 
 @ObjectType()
 export class Company {
-	@ApiProperty({ type: String })
+	@ApiProperty({ type: Number })
 	@Field((type) => ID)
-	id: string = undefined
+	id: number = undefined
 
 	@ApiProperty({ type: String })
 	@Field((type) => String)

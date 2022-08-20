@@ -6,4 +6,9 @@ import { BaseListArgs } from "@src/common/dto/base-list-args";
 export class AuthorListArgs extends BaseListArgs {
   @Field({ nullable: true })
   name?: string;
+
+  constructor(obj?: Partial<AuthorListArgs>) {
+    super();
+    Object.assign(this, obj);
+  }
 }

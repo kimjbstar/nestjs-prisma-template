@@ -12,7 +12,7 @@ export class $!{PASCAL_PLURAL}Service {
 		private readonly prismaService: PrismaService
 	) {}
 
-	async findByPk(id: string): Promise<$!{PASCAL_SINGLE}> {
+	async findByPk(id: number): Promise<$!{PASCAL_SINGLE}> {
 		return await this.prismaService.findUnique$!{PASCAL_SINGLE}(id)
 	}
 
@@ -45,7 +45,7 @@ export class $!{PASCAL_PLURAL}Service {
 		*/
 	}
 
-	async destroy(id: string) {
+	async destroy(id: number) {
 		return await this.prismaService.$!{CAMEL_SINGLE}.delete({
 			where: {
 				id,

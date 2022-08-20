@@ -8,7 +8,7 @@ import session from "express-session";
 import helmet from "helmet";
 import "module-alias/register";
 import "reflect-metadata";
-import { NormalResult, PaginatedResult } from "@src/common/dto/responses";
+import { NormalResult } from "@src/common/dto/responses";
 import { CustomExceptionsFilter } from "@src/common/exceptions/filters/custom.exception-filters";
 import { PrismaNotFoundErrorFilter } from "@src/common/exceptions/filters/prisma-not-found.exception-filters";
 import { LoggingInterceptor } from "@src/interceptors/logging.interceptor";
@@ -57,31 +57,6 @@ async function bootstrap() {
       transform: true,
     })
   );
-
-  // swagger
-  const options = new DocumentBuilder()
-    .setTitle(PROJECT_NAME)
-    .setDescription(`${PROJECT_NAME} 문서 페이지입니다.`)
-    .setContact(
-      "kimjbtar",
-      "https://www.github.com/kimjbstar",
-      "kimjbstar@gmail.com"
-    )
-    .setVersion(CURRENT_VERSION)
-    .build();
-  const document = SwaggerModule.createDocument(app, options, {
-    extraModels: [PaginatedResult, NormalResult],
-    deepScanRoutes: false,
-  });
-  SwaggerModule.setup(`doc`, app, document, {
-    customSiteTitle: `${PROJECT_NAME} API 문서`,
-    swaggerOptions: {
-      tagsSorter: "alpha",
-      operationsSorter: "alpha",
-      defaultModelRendering: "model",
-      filter: true,
-    },
-  });
 
   // app.use(helmet());
   app.use(

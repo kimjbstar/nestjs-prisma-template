@@ -107,21 +107,6 @@ export class PrismaService
     };
   }
 
-  async findUniqueUser(id: string) {
-    const user = await this.user.findUnique({
-      where: { id },
-    });
-    return user;
-  }
-
-  async findFirstUser(args: Prisma.UserWhereInput, reject = false) {
-    const user = await this.user.findFirst({
-      where: args,
-      rejectOnNotFound: this.throwOrNot(reject),
-    });
-    return user;
-  }
-
   setOrderAndLimit<T extends FindManyArgs, U extends BaseListArgs>(
     prismaFindManyArg: T,
     listArg: U

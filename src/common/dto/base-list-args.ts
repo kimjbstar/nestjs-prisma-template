@@ -4,10 +4,6 @@ import { BaseDTOProperty } from "../decorators/dto-types";
 
 @ArgsType()
 export class BaseListArgs {
-  constructor(obj?: object) {
-    Object.assign(this, obj);
-  }
-
   @Field({ nullable: true })
   @BaseDTOProperty({
     description:

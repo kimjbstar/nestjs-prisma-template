@@ -2,4 +2,8 @@ import { BaseListArgs } from '@src/common/dto/base-list-args'
 
 export class $!{PASCAL_SINGLE}ListArgs extends BaseListArgs {
 
+  constructor(obj?: Partial<$!{PASCAL_SINGLE}ListArgs>) {
+    super();
+    Object.assign(this, obj);
+  }
 }

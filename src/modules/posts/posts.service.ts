@@ -8,7 +8,7 @@ import { PostListArgs } from "./args/post-list.args";
 export class PostsService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async findByPk(id: string): Promise<Post> {
+  async findByPk(id: number): Promise<Post> {
     return await this.prismaService.post.findUnique({
       where: { id },
     });
@@ -20,7 +20,7 @@ export class PostsService {
     });
   }
 
-  async update(id: string, dto: any): Promise<Post> {
+  async update(id: number, dto: any): Promise<Post> {
     const post = await this.findByPk(id);
 
     return await this.prismaService.post.update({
@@ -33,7 +33,7 @@ export class PostsService {
     });
   }
 
-  async destroy(id: string) {
+  async destroy(id: number) {
     const post = await this.findByPk(id);
 
     return await this.prismaService.post.delete({
@@ -44,12 +44,12 @@ export class PostsService {
   }
 
   async findMany(args: PostListArgs): Promise<FindManyResult<Post>> {
-    const list = await this.prismaService.post.findMany();
+    const items = await this.prismaService.post.findMany();
     const totalCount = await this.prismaService.post.count();
 
     return {
       totalCount,
-      list,
+      items,
     };
   }
 }

@@ -41,7 +41,8 @@
     "clean:testing": "docker-compose --file ./test/docker-compose.yml down -v",
     "test:cov": "jest --coverage --config jest.dist.config.js --runInBand --detectOpenHandles --forceExit --verbose --no-cache",
     "prisma:test": "dotenv -e .env.test -- npx prisma",
-    "prisma:local": "dotenv -e .env.local -- npx prisma"
+    "prisma:local": "dotenv -e .env.local -- npx prisma",
+    "gen:crud": "ts-node scripts/gen-crud/runner.ts"
   },
   "dependencies": {
     "@nestjs/apollo": "^10.0.19",
@@ -53,7 +54,6 @@
     "@nestjs/microservices": "^8.4.3",
     "@nestjs/passport": "^8.0.1",
     "@nestjs/platform-express": "^8.4.3",
-    "@nestjs/swagger": "^5.2.1",
     "@prisma/client": "^4.0.0",
     "@slack/webhook": "^6.0.0",
     "@types/multer": "^1.4.7",
@@ -83,7 +83,6 @@
     "request-ip": "^3.3.0",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
-    "swagger-ui-express": "^4.3.0",
     "tsconfig-paths": "^3.11.0"
   },
   "devDependencies": {

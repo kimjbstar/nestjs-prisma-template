@@ -8,7 +8,7 @@ import { AuthorListArgs } from "./args/author-list.args";
 export class AuthorsService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async findByPk(id: string): Promise<Author> {
+  async findByPk(id: number): Promise<Author> {
     return await this.prismaService.author.findUnique({
       where: { id },
     });
@@ -20,7 +20,7 @@ export class AuthorsService {
     });
   }
 
-  async update(id: string, dto: any): Promise<Author> {
+  async update(id: number, dto: any): Promise<Author> {
     const author = await this.findByPk(id);
 
     return await this.prismaService.author.update({
@@ -33,7 +33,7 @@ export class AuthorsService {
     });
   }
 
-  async destroy(id: string) {
+  async destroy(id: number) {
     const author = await this.findByPk(id);
 
     return await this.prismaService.author.delete({
@@ -44,12 +44,29 @@ export class AuthorsService {
   }
 
   async findMany(args: AuthorListArgs): Promise<FindManyResult<Author>> {
-    const list = await this.prismaService.author.findMany();
-    const totalCount = await this.prismaService.author.count();
+    const findManyArgs = await this.setFindManyArgs(args);
+    const { where } = findManyArgs;
+
+    const items = await this.prismaService.author.findMany(findManyArgs);
+    const totalCount = !args.after
+      ? await this.prismaService.author.count({ where })
+      : null;
 
     return {
       totalCount,
-      list,
+      items,
     };
+  }
+
+  async setFindManyArgs(
+    args: AuthorListArgs
+  ): Promise<Prisma.AuthorFindManyArgs> {
+    const findManyArgs: Prisma.AuthorFindManyArgs = {
+      where: {
+        deletedAt: null,
+      },
+      orderBy: {},
+    };
+    return this.prismaService.setOrderAndLimit(findManyArgs, args);
   }
 }

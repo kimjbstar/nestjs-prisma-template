@@ -1,22 +1,22 @@
 {
-	"dto": {
-		"scope": "typescript",
-		"prefix": "dto",
-		"body": [
-			"@BaseDTOProperty({\n\tdescription: '${3}',\n\tdataType: '${4}',\n})\n${1}: ${2} = undefined"
-		],
-		"description": "[NestJS] dto 필드"
-	},
-	"cons": {
-		"scope": "javascript, *.blade.php, typescript",
-		"prefix": "cons",
-		"body": ["console.log('${1}', ${1})"],
-		"description": "console.log"
-	},
-	"csd": {
-		"scope": "javascript, *.blade.php, typescript",
-		"prefix": "csd",
-		"body": ["console.dir(${1},{depth:null})"],
-		"description": "console.dir"
-	}
+  "dto": {
+    "scope": "typescript",
+    "prefix": "dto",
+    "body": [
+      "@BaseDTOProperty({\n\tdescription: '${3}',\n\tdataType: '${4}',\n})\n${1}: ${2} = undefined"
+    ],
+    "description": "[NestJS] dto 필드"
+  },
+  "cons": {
+    "scope": "javascript, *.blade.php, typescript",
+    "prefix": "cons",
+    "body": ["console.log('${1}', ${1})"],
+    "description": "console.log"
+  },
+  "csd": {
+    "scope": "javascript, *.blade.php, typescript",
+    "prefix": "csd",
+    "body": ["console.dir(${1},{depth:null})"],
+    "description": "console.dir"
+  }
 }

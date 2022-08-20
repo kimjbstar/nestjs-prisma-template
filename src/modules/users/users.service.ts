@@ -13,15 +13,24 @@ export class UsersService {
     private readonly authService: AuthService
   ) {}
 
-  async findByPk(id: string): Promise<User> {
-    return await this.prismaService.findUniqueUser(id);
+  async findByPk(id: number): Promise<User> {
+    return await this.prismaService.user.findUnique({
+      where: { id },
+    });
   }
 
-  async findFirst(args: Prisma.UserWhereInput, reject = false): Promise<User> {
-    return await this.prismaService.findFirstUser(args, reject);
+  async findFirst(where: Prisma.UserWhereInput, reject = false): Promise<User> {
+    if (reject) {
+      return await this.prismaService.user.findFirstOrThrow({
+        where,
+      });
+    }
+    return await this.prismaService.user.findFirst({
+      where,
+    });
   }
 
-  async update(id: string, dto: any): Promise<User> {
+  async update(id: number, dto: any): Promise<User> {
     const user = await this.findByPk(id);
 
     return await this.prismaService.user.update({
@@ -34,7 +43,7 @@ export class UsersService {
     });
   }
 
-  async destroy(id: string) {
+  async destroy(id: number) {
     const user = await this.findByPk(id);
 
     return await this.prismaService.user.delete({
@@ -48,12 +57,12 @@ export class UsersService {
     const findManyArgs = this._setFindManyArgs(args);
     const { where } = findManyArgs;
 
-    const list = await this.prismaService.user.findMany(findManyArgs);
+    const items = await this.prismaService.user.findMany(findManyArgs);
     const totalCount = await this.getCount(where);
 
     return {
       totalCount,
-      list,
+      items,
     };
   }
 

@@ -20,7 +20,7 @@ export class PostsResolver {
   ) {}
 
   @Query((returns) => Post)
-  async post(@Args("id", { type: () => String }) id: string) {
+  async post(@Args("id", { type: () => Int }) id: number) {
     return this.postsService.findByPk(id);
   }
 

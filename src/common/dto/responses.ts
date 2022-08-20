@@ -1,53 +1,49 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { Field, Int, ObjectType } from "@nestjs/graphql";
+import { ApiProperty } from "@nestjs/swagger";
 
-export type ClassConstructorType = new (...args: any[]) => any
+export type ClassConstructorType = new (...args: any[]) => any;
 
 export class NormalResult<T = object> {
-	@ApiProperty({
-		description: 'statusCode',
-		example: 200,
-		type: Number,
-	})
-	statusCode: number
+  @ApiProperty({
+    description: "statusCode",
+    example: 200,
+    type: Number,
+  })
+  statusCode: number;
 
-	@ApiProperty({
-		description: 'message',
-		example: 'OK',
-		type: String,
-	})
-	message: string
+  @ApiProperty({
+    description: "message",
+    example: "OK",
+    type: String,
+  })
+  message: string;
 
-	constructor(obj?: T) {
-		this.statusCode = 200
-		this.message = 'OK'
+  constructor(obj?: T) {
+    this.statusCode = 200;
+    this.message = "OK";
 
-		Object.assign(this, obj)
-	}
+    Object.assign(this, obj);
+  }
 }
 
-export class PaginatedResult<TData> {
-	constructor(obj?: object) {
-		Object.assign(this, obj)
-	}
-
-	@ApiProperty({
-		type: Number,
-		description:
-			'페이징을 적용하지 않은 총 갯수입니다. 페이지네이션 등에 사용힙니다.',
-	})
-	totalCount?: number
-
-	@ApiProperty({
-		type: Boolean,
-		description: '다음 데이터가 있는지 여부입니다.',
-	})
-	hasNext?: boolean
-
-	results: TData[]
+export interface ClassType<T = any> {
+  new (...args: any[]): T;
 }
 
-export class AssignableClass {
-	constructor(obj?: object) {
-		Object.assign(this, obj)
-	}
+export default function PaginatedResponse<TItem>(TItemClass: ClassType<TItem>) {
+  // `isAbstract` decorator option is mandatory to prevent registering in schema
+  @ObjectType({ isAbstract: true })
+  abstract class PaginatedResponseClass {
+    // here we use the runtime argument
+    @Field((type) => [TItemClass])
+    // and here the generic type
+    items: TItem[];
+
+    @Field((type) => Int, { nullable: true })
+    totalCount?: number;
+
+    @Field()
+    hasNext: boolean;
+  }
+  return PaginatedResponseClass;
 }

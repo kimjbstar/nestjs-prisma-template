@@ -8,7 +8,7 @@ export type ApplicationRequest = Request & {
 };
 
 export interface SessionUser {
-  id: string;
+  id: number;
   email: string;
   name: string;
 }
