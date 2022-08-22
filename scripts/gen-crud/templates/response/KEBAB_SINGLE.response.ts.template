@@ -3,4 +3,4 @@ import PaginatedResponse from "@src/common/dto/responses";
 import { $!{PASCAL_SINGLE} } from "@src/_gen/prisma-class/$!{SNAKE_SINGLE}";
 
 @ObjectType()
-class Paginated$!{PASCAL_SINGLE}Response extends PaginatedResponse($!{PASCAL_SINGLE}) {}
+export class Paginated$!{PASCAL_SINGLE}Response extends PaginatedResponse($!{PASCAL_SINGLE}) {}

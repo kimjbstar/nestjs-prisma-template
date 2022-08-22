@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common'
-
 import { $!{PASCAL_PLURAL}Service } from '@src/modules/$!{KEBAB_PLURAL}/$!{KEBAB_PLURAL}.service'
-import { $!{PASCAL_PLURAL}Controller } from './$!{KEBAB_PLURAL}.controller'
+import { $!{PASCAL_PLURAL}Resolver } from './$!{KEBAB_PLURAL}.resolver'
 
 /**
  * ### $!{PASCAL_SINGLE} 모듈
@@ -11,8 +10,7 @@ import { $!{PASCAL_PLURAL}Controller } from './$!{KEBAB_PLURAL}.controller'
  */
 @Module({
 	imports: [],
-	controllers: [$!{PASCAL_PLURAL}Controller],
-	providers: [$!{PASCAL_PLURAL}Service],
-	exports: [$!{PASCAL_PLURAL}Service],
+	providers: [$!{PASCAL_PLURAL}Service, $!{PASCAL_PLURAL}Resolver],
+	exports: [$!{PASCAL_PLURAL}Service, $!{PASCAL_PLURAL}Resolver],
 })
 export class $!{PASCAL_PLURAL}Module { }

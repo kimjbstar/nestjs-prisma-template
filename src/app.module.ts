@@ -14,7 +14,6 @@ import configOptions from "@src/common/app.config";
 import { UsersModule } from "./modules/users/users.module";
 import { GraphQLModule } from "@nestjs/graphql";
 import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
-import { AuthorsModule } from "./modules/authors/authors.module";
 import { PostsModule } from "./modules/posts/posts.module";
 
 /**
@@ -35,7 +34,6 @@ import { PostsModule } from "./modules/posts/posts.module";
     UtilModule,
     PrismaModule,
     UsersModule,
-    AuthorsModule,
     PostsModule,
   ],
   controllers: [AppController, HealthController, ExceptionController],

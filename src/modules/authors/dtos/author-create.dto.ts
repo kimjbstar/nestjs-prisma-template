@@ -5,10 +5,4 @@ export class AuthorCreateDto {
   constructor(obj?: Partial<AuthorCreateDto>) {
     Object.assign(this, obj);
   }
-
-  @Field((type) => Int)
-  companyId: number;
-
-  @Field()
-  name: string;
 }

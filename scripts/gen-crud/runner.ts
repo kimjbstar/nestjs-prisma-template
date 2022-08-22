@@ -30,7 +30,7 @@ async function run() {
     KEBAB_PLURAL: pluralize(paramCase(name)),
     SNAKE_SINGLE: pluralize.singular(snakeCase(name)),
     SNAKE_PLURAL: pluralize(snakeCase(name)),
-    ".template": "",
+    "\\.template": "",
   };
   const fileReplaceMap = Object.entries(pathReplaceMap).reduce(
     (result, [k, v]) => {
@@ -54,8 +54,8 @@ async function run() {
   );
 
   const templateFilePaths = [
-    "./KEBAB_PLURAL.resolver.ts.template",
     "./KEBAB_PLURAL.module.ts.template",
+    "./KEBAB_PLURAL.resolver.ts.template",
     "./KEBAB_PLURAL.service.ts.template",
     "./dtos/KEBAB_SINGLE-create.dto.ts.template",
     "./dtos/KEBAB_SINGLE-update.dto.ts.template",

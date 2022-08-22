@@ -2,11 +2,11 @@ import {
   Args,
   Context,
   Int,
-  Mutation,
   Parent,
   Query,
   ResolveField,
   Resolver,
+  Mutation
 } from "@nestjs/graphql";
 import { Author } from "@src/_gen/prisma-class/author";
 import { PrismaService } from "../prisma/prisma.service";
@@ -48,23 +48,23 @@ export class AuthorsResolver {
   }
 
   /** N:1 */
-  @ResolveField()
-  async company(@Parent() author: Author) {
-    const company = await this.prismaService.company.findUnique({
-      where: {
-        id: author.companyId,
-      },
-    });
-    return company;
-  }
+  // @ResolveField()
+  // async $!{PARENT_ENTITY}(@Parent() $!{CURRENT_ENTITY}: Author) {
+  //   const $!{PARENT_ENTITY} = await this.prismaService.$!{PARENT_ENTITY}.findUnique({
+  //     where: {
+  //       id: $!{CURRENT_ENTITY}.$!{PARENT_ENTITY}Id,
+  //     },
+  //   });
+  //   return $!{PARENT_ENTITY};
+  // }
 
   /** 1:N */
-  @ResolveField()
-  async posts(@Parent() author: Author, @Context() context) {
-    return await this.prismaService.post.findMany({
-      where: {
-        authorId: author.id,
-      },
-    });
-  }
+  // @ResolveField()
+  // async $!{CHILD_ENTITIES}(@Parent() $!{CURRENT_ENTITY}: Author, @Context() context) {
+  //   return await this.prismaService.$!{CHILD_ENTITY}.findMany({
+  //     where: {
+  //       authorId: $!{CURRENT_ENTITY}.id,
+  //     },
+  //   });
+  // }
 }

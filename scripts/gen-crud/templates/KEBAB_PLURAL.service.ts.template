@@ -13,14 +13,15 @@ export class $!{PASCAL_PLURAL}Service {
 	) {}
 
 	async findByPk(id: number): Promise<$!{PASCAL_SINGLE}> {
-		return await this.prismaService.findUnique$!{PASCAL_SINGLE}(id)
+		return await this.prismaService.$!{CAMEL_SINGLE}.findUnique({
+		where: { id },
+		});
 	}
 
-	async findFirst(
-		arg: Prisma.$!{PASCAL_SINGLE}WhereInput,
-		reject = false,
-	): Promise<$!{PASCAL_SINGLE}> {
-		return await this.prismaService.findFirst$!{PASCAL_SINGLE}(arg, reject)
+	async findFirst(args: Prisma.$!{PASCAL_SINGLE}WhereInput): Promise<$!{PASCAL_SINGLE}> {
+		return await this.prismaService.$!{CAMEL_SINGLE}.findFirst({
+		where: args,
+		});
 	}
 
 	async create(dto: $!{PASCAL_SINGLE}CreateDto): Promise<$!{PASCAL_SINGLE}> {
@@ -34,7 +35,7 @@ export class $!{PASCAL_PLURAL}Service {
 		*/
 	}
 
-	async update(id: number, dto: $!{PASCAL_SINGLE}UpdateDto): Promise<$!{PASCAL_SINGLE}> {
+	async update(dto: $!{PASCAL_SINGLE}UpdateDto): Promise<$!{PASCAL_SINGLE}> {
 		return null
 		/**
 		return await this.prismaService.$!{CAMEL_SINGLE}.update({
@@ -54,20 +55,20 @@ export class $!{PASCAL_PLURAL}Service {
 	}
 
 	async findMany(args: $!{PASCAL_SINGLE}ListArgs): Promise<FindManyResult<$!{PASCAL_SINGLE}>> {
-		const findManyArgs = await this._setFindManyArgs(args)
+		const findManyArgs = await this.setFindManyArgs(args)
 		const { where } = findManyArgs
 
-		const list = await this.prismaService.$!{CAMEL_SINGLE}.findMany(findManyArgs)
+		const items = await this.prismaService.$!{CAMEL_SINGLE}.findMany(findManyArgs)
 		const totalCount = await this.getCount(where)
 
 		return {
 			totalCount,
-			list,
+			items,
 		}
 	}
 
 	async aggregate(args: $!{PASCAL_SINGLE}ListArgs) {
-		const { where } = await this._setFindManyArgs(args)
+		const { where } = await this.setFindManyArgs(args)
 		return await this.getAggregate(where)
 	}
 
@@ -89,7 +90,7 @@ export class $!{PASCAL_PLURAL}Service {
 		return await this.prismaService.$!{CAMEL_SINGLE}.count({ where })
 	}
 
-	async _setFindManyArgs(
+	async setFindManyArgs(
 		args: $!{PASCAL_SINGLE}ListArgs,
 	): Promise<Prisma.$!{PASCAL_SINGLE}FindManyArgs> {
 		const findManyArgs: Prisma.$!{PASCAL_SINGLE}FindManyArgs = {
