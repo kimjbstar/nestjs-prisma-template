@@ -1,7 +1,6 @@
 import { RequestMethod, ValidationPipe } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { NestFactory } from "@nestjs/core";
-import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import connectRedis from "connect-redis";
 import { json, urlencoded } from "express";
 import session from "express-session";

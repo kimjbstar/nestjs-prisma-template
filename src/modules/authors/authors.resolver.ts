@@ -2,28 +2,24 @@ import {
   Args,
   Context,
   Int,
-  ObjectType,
+  Mutation,
   Parent,
   Query,
   ResolveField,
   Resolver,
 } from "@nestjs/graphql";
-import { CurrentGraphQLContext } from "@src/common/decorators/current-context";
-import PaginatedResponse from "@src/common/dto/responses";
 import { Author } from "@src/_gen/prisma-class/author";
-import { PostsService } from "../posts/posts.service";
 import { PrismaService } from "../prisma/prisma.service";
 import { AuthorListArgs } from "./args/author-list.args";
 import { AuthorsService } from "./authors.service";
-
-@ObjectType()
-class PaginatedAuthorResponse extends PaginatedResponse(Author) {}
+import { AuthorCreateDto } from "./dtos/author-create.dto";
+import { AuthorUpdateDto } from "./dtos/author-update.dto";
+import { PaginatedAuthorResponse } from "./response/author.response";
 
 @Resolver((of) => Author)
 export class AuthorsResolver {
   constructor(
     private authorsService: AuthorsService,
-    private postsService: PostsService,
     private prismaService: PrismaService
   ) {}
 
@@ -41,6 +37,16 @@ export class AuthorsResolver {
     };
   }
 
+  @Mutation((returns) => Author)
+  async createAuthor(@Args("input") args: AuthorCreateDto) {
+    return await this.authorsService.create(args);
+  }
+
+  @Mutation((returns) => Author)
+  async updateAuthor(@Args("input") args: AuthorUpdateDto) {
+    return await this.authorsService.update(args);
+  }
+
   /** N:1 */
   @ResolveField()
   async company(@Parent() author: Author) {
@@ -55,7 +61,6 @@ export class AuthorsResolver {
   /** 1:N */
   @ResolveField()
   async posts(@Parent() author: Author, @Context() context) {
-    console.log("context in author->posts", context);
     return await this.prismaService.post.findMany({
       where: {
         authorId: author.id,

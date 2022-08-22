@@ -13,6 +13,7 @@ generator prismaClassGenerator {
   provider   = "prisma-class-generator"
   dryRun     = "false"
   useGraphQL = "true"
+  useSwagger = "false"
 }
 
 enum UserRole {

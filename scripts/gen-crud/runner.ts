@@ -54,7 +54,7 @@ async function run() {
   );
 
   const templateFilePaths = [
-    "./KEBAB_PLURAL.controller.ts.template",
+    "./KEBAB_PLURAL.resolver.ts.template",
     "./KEBAB_PLURAL.module.ts.template",
     "./KEBAB_PLURAL.service.ts.template",
     "./dtos/KEBAB_SINGLE-create.dto.ts.template",

@@ -1,5 +1,6 @@
-import { $!{PASCAL_SINGLE} } from '@prisma/client'
+import { ObjectType } from "@nestjs/graphql";
+import PaginatedResponse from "@src/common/dto/responses";
+import { $!{PASCAL_SINGLE} } from "@src/_gen/prisma-class/$!{SNAKE_SINGLE}";
 
-export class $!{PASCAL_SINGLE}Response {
-	$!{CAMEL_SINGLE}: $!{PASCAL_SINGLE}
-}
+@ObjectType()
+class Paginated$!{PASCAL_SINGLE}Response extends PaginatedResponse($!{PASCAL_SINGLE}) {}

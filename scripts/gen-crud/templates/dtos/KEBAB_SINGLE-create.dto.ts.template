@@ -1,10 +1,8 @@
-import { BaseDTOProperty } from '@src/common/decorators/dto-types'
-import { AssignableClass } from '@src/common/dto/responses'
+import { ArgsType, Field, InputType, Int } from "@nestjs/graphql";
 
+@InputType()
 export class $!{PASCAL_SINGLE}CreateDto {
-
   constructor(obj?: Partial<$!{PASCAL_SINGLE}CreateDto>) {
-    super();
     Object.assign(this, obj);
   }
 }

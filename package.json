@@ -1,7 +1,7 @@
 {
-  "name": "logipasta-api",
-  "version": "2.1.10",
-  "description": "로지파스타 API Server",
+  "name": "nestjs-prisma-template",
+  "version": "0.0.1",
+  "description": "nestjs-prisma-template API Server",
   "main": "app.js",
   "engines": {
     "node": ">=14.0.0"
@@ -11,16 +11,6 @@
       "name": "JongBeom Kim",
       "email": "kimjbstar@coderecipe.io",
       "url": "https://www.github.com/kimjbstar"
-    },
-    {
-      "name": "Eunju Kim",
-      "email": "amy@coderecipe.io",
-      "url": "https://www.github.com/eunjju1209"
-    },
-    {
-      "name": "Xadparo",
-      "email": "xadparo@coderecipe.io",
-      "url": "https://www.github.com/xadparo"
     }
   ],
   "private": true,
@@ -54,6 +44,7 @@
     "@nestjs/microservices": "^8.4.3",
     "@nestjs/passport": "^8.0.1",
     "@nestjs/platform-express": "^8.4.3",
+    "@nestjs/swagger": "^6.0.5",
     "@prisma/client": "^4.0.0",
     "@slack/webhook": "^6.0.0",
     "@types/multer": "^1.4.7",

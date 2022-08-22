@@ -3,6 +3,8 @@ import { Injectable } from "@nestjs/common";
 import { FindManyResult } from "@src/common/base.repository";
 import { PrismaService } from "@src/modules/prisma/prisma.service";
 import { AuthorListArgs } from "./args/author-list.args";
+import { AuthorCreateDto } from "./dtos/author-create.dto";
+import { AuthorUpdateDto } from "./dtos/author-update.dto";
 
 @Injectable()
 export class AuthorsService {
@@ -20,12 +22,19 @@ export class AuthorsService {
     });
   }
 
-  async update(id: number, dto: any): Promise<Author> {
-    const author = await this.findByPk(id);
+  async create(dto: AuthorCreateDto): Promise<Author> {
+    return this.prismaService.author.create({
+      data: {
+        companyId: dto.companyId,
+        name: dto.name,
+      },
+    });
+  }
 
+  async update(dto: AuthorUpdateDto): Promise<Author> {
     return await this.prismaService.author.update({
       where: {
-        id,
+        id: dto.id,
       },
       data: {
         name: dto.name,

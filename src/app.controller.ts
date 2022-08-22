@@ -1,6 +1,5 @@
 import { Controller, Get, UseInterceptors } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { AppService } from "./app.service";
 import { ApiNormalResponse } from "./common/decorators/api-normal-response";
 import { CurrentIp } from "./common/decorators/current-ip";
@@ -18,11 +17,10 @@ export class GetHelloResponse {
  * 특정 모듈에 종속되지 않거나, 테스트용 엔드포인트가 있습니다.
  */
 @Controller()
-@ApiTags("default")
 export class AppController {
   constructor(
     private readonly appService: AppService,
-    private readonly configService: ConfigService,
+    private readonly configService: ConfigService
   ) {}
 
   /**
@@ -30,9 +28,6 @@ export class AppController {
    * @returns {string} 테스트 hello 메시지.
    */
   @Get()
-  @ApiOperation({
-    summary: "Hello World👋",
-  })
   @UseInterceptors(ResponseInterceptor)
   getHello(): GetHelloResponse {
     return {

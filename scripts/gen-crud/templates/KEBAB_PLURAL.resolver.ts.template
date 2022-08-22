@@ -1,0 +1,68 @@
+import {
+  Args,
+  Context,
+  Int,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from "@nestjs/graphql";
+import { CurrentGraphQLContext } from "@src/common/decorators/current-context";
+import PaginatedResponse from "@src/common/dto/responses";
+import { $!{PASCAL_SINGLE} } from "@src/_gen/prisma-class/$!{SNAKE_SINGLE}";
+import { PrismaService } from "../prisma/prisma.service";
+import { $!{PASCAL_SINGLE}ListArgs } from "./args/author-list.args";
+import { $!{PASCAL_PLURAL}Service } from "./$!{SNAKE_PLURAL}.service";
+
+@Resolver((of) => $!{PASCAL_SINGLE})
+export class $!{PASCAL_PLURAL}Resolver {
+  constructor(
+    private $!{CAMEL_PLURAL}Service: $!{PASCAL_PLURAL}Service,
+    private prismaService: PrismaService
+  ) {}
+
+  @Query((returns) => $!{PASCAL_SINGLE})
+  async $!{CAMEL_SINGLE}(@Args("id", { type: () => Int }) id: number) {
+    return this.$!{CAMEL_PLURAL}Service.findByPk(id);
+  }
+
+  @Query((returns) => Paginated$!{PASCAL_SINGLE}Response)
+  async $!{CAMEL_PLURAL}(@Args() args: $!{PASCAL_SINGLE}ListArgs) {
+    const { totalCount, items } = await this.$!{CAMEL_PLURAL}Service.findMany(args);
+    return {
+      totalCount,
+      items,
+    };
+  }
+
+  @Mutation((returns) => $!{PASCAL_SINGLE})
+  async create$!{PASCAL_SINGLE}(@Args("input") args: $!{PASCAL_SINGLE}CreateDto) {
+    return await this.$!{CAMEL_PLURAL}Service.create(args);
+  }
+
+  @Mutation((returns) => $!{PASCAL_SINGLE})
+  async update$!{PASCAL_SINGLE}(@Args("input") args: $!{PASCAL_SINGLE}UpdateDto) {
+    return await this.$!{CAMEL_PLURAL}Service.update(args);
+  }
+
+  /** N:1 */
+  // @ResolveField()
+  // async $!{PARENT_ENTITY}(@Parent() $!{CURRENT_ENTITY}: $!{PASCAL_SINGLE}) {
+  //   const $!{PARENT_ENTITY} = await this.prismaService.$!{PARENT_ENTITY}.findUnique({
+  //     where: {
+  //       id: $!{CURRENT_ENTITY}.$!{PARENT_ENTITY}Id,
+  //     },
+  //   });
+  //   return $!{PARENT_ENTITY};
+  // }
+
+  /** 1:N */
+  // @ResolveField()
+  // async $!{CHILD_ENTITIES}(@Parent() $!{CURRENT_ENTITY}: $!{PASCAL_SINGLE}, @Context() context) {
+  //   return await this.prismaService.$!{CHILD_ENTITY}.findMany({
+  //     where: {
+  //       authorId: $!{CURRENT_ENTITY}.id,
+  //     },
+  //   });
+  // }
+}
