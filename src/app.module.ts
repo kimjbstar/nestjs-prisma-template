@@ -14,7 +14,12 @@ import configOptions from "@src/common/app.config";
 import { UsersModule } from "./modules/users/users.module";
 import { GraphQLModule } from "@nestjs/graphql";
 import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
-import { PostsModule } from "./modules/posts/posts.module";
+import { CocktailsModule } from "./modules/cocktails/cocktails.module";
+import { GarnishesModule } from "./modules/garnishes/garnishes.module";
+import { GlassesModule } from "./modules/glasses/glasses.module";
+import { IngredientsModule } from "./modules/ingredients/ingredients.module";
+import { RecipesModule } from "./modules/recipes/recipes.module";
+import { TechniquesModule } from "./modules/techniques/techniques.module";
 
 /**
  * 시작점 모듈 입니다. 모든 모듈은 이 모듈로 Inject됩니다.
@@ -34,7 +39,12 @@ import { PostsModule } from "./modules/posts/posts.module";
     UtilModule,
     PrismaModule,
     UsersModule,
-    PostsModule,
+    CocktailsModule,
+    GarnishesModule,
+    GlassesModule,
+    IngredientsModule,
+    RecipesModule,
+    TechniquesModule,
   ],
   controllers: [AppController, HealthController, ExceptionController],
   providers: [AppService],

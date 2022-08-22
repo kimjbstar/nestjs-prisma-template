@@ -1,8 +1,9 @@
 import { Injectable } from "@nestjs/common";
-import { UserRole } from "@prisma/client";
+import { Cocktail, UserRole } from "@prisma/client";
 import { AuthService } from "../auth/auth.service";
 import { PrismaService } from "../prisma/prisma.service";
 import { UtilService } from "../util/util.service";
+import { faker } from "@faker-js/faker";
 
 @Injectable()
 export class SeedService {
@@ -41,26 +42,63 @@ export class SeedService {
       ],
     });
 
-    const company = await this.prismaService.company.create({
-      data: {
-        name: `company01`,
-      },
+    const TECHNIQUES = ["Frost", "Shake", "Build", "Float", "Stir", "Blend"];
+    await this.prismaService.technique.createMany({
+      data: [...TECHNIQUES.map((name) => ({ name }))],
     });
 
-    for (const idx of this.utilService.range(1, 100)) {
-      const { id } = await this.prismaService.author.create({
+    await this.createIngredient(10);
+    await this.createGlass(5);
+    await this.createGarnish(4);
+  }
+
+  async createGlass(count = 1) {
+    for (let i = 0; i < count; i++) {
+      await this.prismaService.glass.create({
         data: {
-          companyId: company.id,
-          name: `author${idx}`,
+          name: faker.animal.insect(),
         },
       });
-      await this.prismaService.post.createMany({
-        data: [
-          ...this.utilService.range(1, 2).map((i) => ({
-            authorId: id,
-            name: `author${idx}-post${i}`,
-          })),
-        ],
+    }
+  }
+
+  async createTechnique(count = 1) {
+    for (let i = 0; i < count; i++) {
+      await this.prismaService.technique.create({
+        data: {
+          name: faker.animal.insect(),
+        },
+      });
+    }
+  }
+
+  async createGarnish(count = 1) {
+    for (let i = 0; i < count; i++) {
+      await this.prismaService.garnish.create({
+        data: {
+          name: faker.animal.insect(),
+        },
+      });
+    }
+  }
+
+  async createRecipe(cockTail: Cocktail, count = 1) {
+    for (let i = 0; i < count; i++) {
+      await this.prismaService.recipe.create({
+        data: {
+          cocktailId: cockTail.id,
+          content: faker.lorem.words(),
+        },
+      });
+    }
+  }
+
+  async createIngredient(count = 1) {
+    for (let i = 0; i < count; i++) {
+      await this.prismaService.ingredient.create({
+        data: {
+          name: faker.animal.bear(),
+        },
       });
     }
   }

@@ -39,40 +39,50 @@ model User {
   deletedAt     DateTime? @db.DateTime(6)
 }
 
-enum CompanyType {
-  A
-  B
-  C
+model Cocktail {
+  id          Int          @id @default(autoincrement())
+  name        String
+  nameEnglish String
+  desc        String?
+  thumbnail   String?
+  icon        String?
+  glass       Glass?       @relation(fields: [glassId], references: [id])
+  glassId     Int?
+  techniques  Technique[]
+  garnishes   Garnish[]
+  recipes     Recipe[]
+  ingredients Ingredient[]
 }
 
-model Company {
-  id        Int         @id @default(autoincrement())
-  name      String      @db.VarChar(128)
-  type      CompanyType @default(A)
-  createdAt DateTime    @default(now()) @db.DateTime(6)
-  updatedAt DateTime    @updatedAt
-  deletedAt DateTime?   @db.DateTime(6)
-  authors   Author[]
+model Glass {
+  id        Int        @id @default(autoincrement())
+  name      String
+  desc      String?
+  cocktails Cocktail[]
 }
 
-model Author {
-  id        Int       @id @default(autoincrement())
-  company   Company   @relation(fields: [companyId], references: [id])
-  name      String    @db.VarChar(128)
-  extra     Json?
-  createdAt DateTime  @default(now()) @db.DateTime(6)
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime? @db.DateTime(6)
-  posts     Post[]
-  companyId Int
+model Technique {
+  id        Int        @id @default(autoincrement())
+  name      String
+  cocktails Cocktail[]
 }
 
-model Post {
-  id        Int       @id @default(autoincrement())
-  name      String    @db.VarChar(128)
-  author    Author    @relation(fields: [authorId], references: [id])
-  createdAt DateTime  @default(now()) @db.DateTime(6)
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime? @db.DateTime(6)
-  authorId  Int
+model Garnish {
+  id        Int        @id @default(autoincrement())
+  name      String
+  desc      String?
+  cocktails Cocktail[]
+}
+
+model Ingredient {
+  id        Int        @id @default(autoincrement())
+  name      String
+  cocktails Cocktail[]
+}
+
+model Recipe {
+  id         Int      @id @default(autoincrement())
+  cocktail   Cocktail @relation(fields: [cocktailId], references: [id])
+  cocktailId Int
+  content    String   @db.Text()
 }

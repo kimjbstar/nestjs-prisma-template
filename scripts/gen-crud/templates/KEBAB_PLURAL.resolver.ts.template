@@ -10,11 +10,11 @@ import {
 } from "@nestjs/graphql";
 import { $!{PASCAL_SINGLE} } from "@src/_gen/prisma-class/$!{SNAKE_SINGLE}";
 import { PrismaService } from "../prisma/prisma.service";
-import { $!{PASCAL_SINGLE}ListArgs } from "./args/author-list.args";
+import { $!{PASCAL_SINGLE}ListArgs } from "./args/$!{KEBAB_SINGLE}-list.args";
 import { $!{PASCAL_PLURAL}Service } from "./$!{KEBAB_PLURAL}.service";
 import { $!{PASCAL_SINGLE}CreateDto } from "./dtos/$!{KEBAB_SINGLE}-create.dto";
 import { $!{PASCAL_SINGLE}UpdateDto } from "./dtos/$!{KEBAB_SINGLE}-update.dto";
-import { PaginatedAuthorResponse } from "./response/$!{KEBAB_SINGLE}.response";
+import { Paginated$!{PASCAL_SINGLE}Response } from "./response/$!{KEBAB_SINGLE}.response";
 
 @Resolver((of) => $!{PASCAL_SINGLE})
 export class $!{PASCAL_PLURAL}Resolver {

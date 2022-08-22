@@ -1,8 +1,8 @@
 import { ArgsType, Field, ID, InputType, Int } from "@nestjs/graphql";
 
 @InputType()
-export class $!{PASCAL_SINGLE}UpdateDto {
-  constructor(obj?: Partial<$!{PASCAL_SINGLE}UpdateDto>) {
+export class GlassUpdateDto {
+  constructor(obj?: Partial<GlassUpdateDto>) {
     Object.assign(this, obj);
   }
 
