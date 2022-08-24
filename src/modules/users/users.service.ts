@@ -10,7 +10,7 @@ import { CustomException } from "@src/common/exceptions/filters/custom.exception
 export class UsersService {
   constructor(
     private readonly prismaService: PrismaService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
   ) {}
 
   async findByPk(id: number): Promise<User> {
@@ -54,7 +54,7 @@ export class UsersService {
   }
 
   async findMany(args: UserListArgs): Promise<FindManyResult<User>> {
-    const findManyArgs = this._setFindManyArgs(args);
+    const findManyArgs = this.setFindManyArgs(args);
     const { where } = findManyArgs;
 
     const items = await this.prismaService.user.findMany(findManyArgs);
@@ -67,7 +67,7 @@ export class UsersService {
   }
 
   async aggregate(args: UserListArgs) {
-    const { where } = this._setFindManyArgs(args);
+    const { where } = this.setFindManyArgs(args);
     return await this.getAggregate(where);
   }
 
@@ -96,11 +96,15 @@ export class UsersService {
     return await this.prismaService.user.count({ where });
   }
 
-  _setFindManyArgs(args: UserListArgs): Prisma.UserFindManyArgs {
+  setFindManyArgs(args: UserListArgs): Prisma.UserFindManyArgs {
     const findManyArgs: Prisma.UserFindManyArgs = {
       where: {},
       orderBy: {},
     };
+
+    if (args.role) {
+      findManyArgs.where.role = args.role;
+    }
 
     return this.prismaService.setOrderAndLimit(findManyArgs, args);
   }

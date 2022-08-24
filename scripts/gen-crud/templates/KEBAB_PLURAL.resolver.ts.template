@@ -63,7 +63,7 @@ export class $!{PASCAL_PLURAL}Resolver {
   // async $!{CHILD_ENTITIES}(@Parent() $!{CURRENT_ENTITY}: $!{PASCAL_SINGLE}, @Context() context) {
   //   return await this.prismaService.$!{CHILD_ENTITY}.findMany({
   //     where: {
-  //       authorId: $!{CURRENT_ENTITY}.id,
+  //       $!{CURRENT_ENTITY}Id: $!{CURRENT_ENTITY}.id,
   //     },
   //   });
   // }

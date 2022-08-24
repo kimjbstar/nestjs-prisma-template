@@ -6,7 +6,7 @@ import {
   Query,
   ResolveField,
   Resolver,
-  Mutation
+  Mutation,
 } from "@nestjs/graphql";
 import { Cocktail } from "@src/_gen/prisma-class/cocktail";
 import { PrismaService } from "../prisma/prisma.service";
@@ -20,7 +20,7 @@ import { PaginatedCocktailResponse } from "./response/cocktail.response";
 export class CocktailsResolver {
   constructor(
     private cocktailsService: CocktailsService,
-    private prismaService: PrismaService
+    private prismaService: PrismaService,
   ) {}
 
   @Query((returns) => Cocktail)
@@ -47,24 +47,38 @@ export class CocktailsResolver {
     return await this.cocktailsService.update(args);
   }
 
-  /** N:1 */
-  // @ResolveField()
-  // async $!{PARENT_ENTITY}(@Parent() $!{CURRENT_ENTITY}: Cocktail) {
-  //   const $!{PARENT_ENTITY} = await this.prismaService.$!{PARENT_ENTITY}.findUnique({
-  //     where: {
-  //       id: $!{CURRENT_ENTITY}.$!{PARENT_ENTITY}Id,
-  //     },
-  //   });
-  //   return $!{PARENT_ENTITY};
-  // }
+  @ResolveField()
+  async glass(@Parent() cocktail: Cocktail, @Context() context) {
+    return await this.prismaService.glass.findUnique({
+      where: {
+        id: cocktail.glassId,
+      },
+    });
+  }
 
-  /** 1:N */
-  // @ResolveField()
-  // async $!{CHILD_ENTITIES}(@Parent() $!{CURRENT_ENTITY}: Cocktail, @Context() context) {
-  //   return await this.prismaService.$!{CHILD_ENTITY}.findMany({
-  //     where: {
-  //       authorId: $!{CURRENT_ENTITY}.id,
-  //     },
-  //   });
-  // }
+  @ResolveField()
+  async techniques(@Parent() cocktail: Cocktail, @Context() context) {
+    return await this.prismaService.technique.findMany({
+      where: {
+        cocktails: {
+          some: {
+            id: cocktail.id,
+          },
+        },
+      },
+    });
+  }
+
+  @ResolveField()
+  async ingredients(@Parent() cocktail: Cocktail, @Context() context) {
+    return await this.prismaService.ingredient.findMany({
+      where: {
+        cocktails: {
+          some: {
+            id: cocktail.id,
+          },
+        },
+      },
+    });
+  }
 }

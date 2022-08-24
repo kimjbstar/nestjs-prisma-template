@@ -13,8 +13,17 @@ export class Glass {
 	@Field((type) => String)
 	name: string = undefined
 
+	@Field((type) => String)
+	nameEnglish: string = undefined
+
 	@Field((type) => String, { nullable: true })
 	desc?: string = undefined
+
+	@Field((type) => String, { nullable: true })
+	imageUrl?: string = undefined
+
+	@Field((type) => String)
+	volume: string = undefined
 
 	@Field((type) => [Cocktail])
 	cocktails: Cocktail[] = undefined
