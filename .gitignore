@@ -55,9 +55,7 @@ typings/
 # dotenv environment variables file
 .env
 .env.*
-!.env.web-server
-!.env.scheduler
-!.env.sync-worker
+!.env.example
 
 # editor specific file
 .idea/

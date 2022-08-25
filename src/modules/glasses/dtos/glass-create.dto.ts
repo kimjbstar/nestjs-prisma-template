@@ -8,4 +8,10 @@ export class GlassCreateDto {
 
   @Field()
   name: string;
+
+  @Field()
+  name_english: string;
+
+  @Field()
+  volume: string;
 }

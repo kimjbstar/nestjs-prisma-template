@@ -9,12 +9,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-generator prismaClassGenerator {
-  provider   = "prisma-class-generator"
-  dryRun     = "false"
-  useGraphQL = "true"
-  useSwagger = "false"
-}
+// generator prismaClassGenerator {
+//   provider   = "prisma-class-generator"
+//   dryRun     = "false"
+//   useGraphQL = "true"
+//   useSwagger = "false"
+// }
 
 enum UserRole {
   NORMAL

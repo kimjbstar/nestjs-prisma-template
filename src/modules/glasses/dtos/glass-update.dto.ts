@@ -9,4 +9,12 @@ export class GlassUpdateDto {
   @Field((type) => Int)
   id: number;
 
+  @Field({ nullable: true })
+  name?: string;
+
+  @Field({ nullable: true })
+  name_english?: string;
+
+  @Field({ nullable: true })
+  volume?: string;
 }
